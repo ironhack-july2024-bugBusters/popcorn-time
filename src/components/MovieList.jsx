@@ -1,5 +1,6 @@
 import { useState } from "react";
 import movies from "../data/movies.json";
+import Movie from "./Movie";
 
 
 function MovieList () {
@@ -13,8 +14,7 @@ function MovieList () {
 
         // moviesToDisplay = newList;  // NEVER, NEVER modify state directly
 
-        setMoviesToDisplay(newList)
-        
+        setMoviesToDisplay(newList);
     }
 
     return (
@@ -25,16 +25,11 @@ function MovieList () {
 
             {moviesToDisplay.map( (movieDetails) => {
                 return (
-                    <div key={movieDetails.id} className="card">
-                        <img src={movieDetails.imgURL} alt="Movie poster"  />
-                        <h3>{movieDetails.title}</h3>
-                        <p>Year: {movieDetails.year}</p>
-                        <p>Rating: {movieDetails.rating}</p>
-
-                        <p>
-                            <button onClick={() => {deleteMovie(movieDetails.id)}}>Delete</button>
-                        </p>
-                    </div>
+                    <Movie 
+                        key={movieDetails.id} 
+                        movieDetails={movieDetails}
+                        callbackToDelete={deleteMovie}
+                    />
                 );
             })}
 
