@@ -1,5 +1,5 @@
 
-import Movie from "./Movie";
+import MovieSummary from "./MovieSummary";
 
 
 function MovieList (props) {
@@ -11,7 +11,7 @@ function MovieList (props) {
 
             {props.moviesToDisplay.map( (movieDetails) => {
                 return (
-                    <Movie 
+                    <MovieSummary 
                         key={movieDetails.id} 
                         movieDetails={movieDetails}
                         callbackToDelete={props.callbackToDelete}
