@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { NavLink, Route, Routes } from "react-router-dom";
 
 import Header from "./components/Header"
 import MovieList from "./components/MovieList"
 import Footer from "./components/Footer"
 
 import movies from "./data/movies.json";
+import About from "./components/About";
+
 
 function App() {
 
@@ -22,12 +25,21 @@ function App() {
 
   return (
     <>
-      
+
       <Header numberOfMovies={moviesToDisplay.length} />
 
-      <MovieList moviesToDisplay={moviesToDisplay} callbackToDelete={deleteMovie} />
+      <nav>
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/about">About</NavLink>
+      </nav>
 
-      <Footer />
+      <Routes>
+        <Route path="/" element={<MovieList moviesToDisplay={moviesToDisplay} callbackToDelete={deleteMovie} />} />
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<h1>Page not found</h1>} />
+      </Routes>
+
+      <Footer /> 
 
     </>
   )
