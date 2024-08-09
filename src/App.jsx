@@ -5,6 +5,7 @@ import Header from "./components/Header"
 import About from "./components/About";
 import MovieList from "./components/MovieList"
 import MovieDetails from "./components/MovieDetails";
+import AddMovie from "./components/AddMovie";
 import Footer from "./components/Footer"
 
 import movies from "./data/movies.json";
@@ -14,9 +15,23 @@ function App() {
 
   const [moviesToDisplay, setMoviesToDisplay] = useState(movies);
 
-  const [title, setTitle] = useState("");
-  const [year, setYear] = useState("");
 
+  const createMovie = (movieDetails) => {
+    
+    // find out id for the movie that we want to add
+    const movieIds = moviesToDisplay.map((movie) => movie.id);
+    const maxId = Math.max(...movieIds);
+    const nextId = maxId + 1;
+
+    const newMovie = {
+      ...movieDetails,
+      id: nextId
+    }
+
+    const newList = [newMovie, ...moviesToDisplay];
+    setMoviesToDisplay(newList);
+
+  }
 
   const deleteMovie = (movieId) => {
     const newList = moviesToDisplay.filter((element) => {
@@ -26,26 +41,6 @@ function App() {
     setMoviesToDisplay(newList);
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // find out id for the movie that we want to add
-    const movieIds = moviesToDisplay.map((movie) => movie.id);
-    const maxId = Math.max(...movieIds);
-    const nextId = maxId + 1;
-    
-    // prepare an object with the details of the new movie
-    const newMovie = {
-      id: nextId,
-      title: title,
-      year: parseInt(year)
-    }
-
-    // moviesToDisplay.push(newMovie); // NEVER, NEVER modify state directly!!
-    const newList = [newMovie, ...moviesToDisplay];
-    setMoviesToDisplay(newList);
-
-  }
 
   return (
     <>
@@ -57,45 +52,7 @@ function App() {
         <NavLink to="/about">About</NavLink>
       </nav>
 
-      <section className="box">
-        <h2>Create your own movie:</h2>
-
-        <form onSubmit={handleSubmit}>
-
-          <label>
-            Title: 
-            <input 
-              type="text" 
-              name="title" 
-              required
-              placeholder="the godfather" 
-              value={title} 
-              onChange={(e) => { setTitle(e.target.value) }}
-            />
-          </label>
-
-          <label>
-            Year: 
-            <input 
-              type="number" 
-              name="year" 
-              required
-              placeholder="1999" 
-              min={1900}
-              max={2100}
-              value={year} 
-              onChange={(e) => { setYear(e.target.value) }}
-            />
-          </label>
-
-          <p>
-            <button>Create</button>
-          </p>
-
-        </form>
-
-      </section>
-
+      <AddMovie callbackToCreate={createMovie} />
 
       <Routes>
         <Route path="/" element={<MovieList moviesToDisplay={moviesToDisplay} callbackToDelete={deleteMovie} />} />
