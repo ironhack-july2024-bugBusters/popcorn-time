@@ -15,6 +15,7 @@ function App() {
   const [moviesToDisplay, setMoviesToDisplay] = useState(movies);
 
   const [title, setTitle] = useState("");
+  const [year, setYear] = useState("");
 
 
   const deleteMovie = (movieId) => {
@@ -30,6 +31,7 @@ function App() {
     
     const newMovie = {
       title: title,
+      year: parseInt(year)
     }
 
     // moviesToDisplay.push(newMovie); // NEVER, NEVER modify state directly!!
@@ -58,9 +60,24 @@ function App() {
             <input 
               type="text" 
               name="title" 
-              placeholder="enter the title" 
+              required
+              placeholder="the godfather" 
               value={title} 
               onChange={(e) => { setTitle(e.target.value) }}
+            />
+          </label>
+
+          <label>
+            Year: 
+            <input 
+              type="number" 
+              name="year" 
+              required
+              placeholder="1999" 
+              min={1900}
+              max={2100}
+              value={year} 
+              onChange={(e) => { setYear(e.target.value) }}
             />
           </label>
 
