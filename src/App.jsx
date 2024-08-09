@@ -2,26 +2,40 @@ import { useState } from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
 
 import Header from "./components/Header"
+import About from "./components/About";
 import MovieList from "./components/MovieList"
+import MovieDetails from "./components/MovieDetails";
 import Footer from "./components/Footer"
 
 import movies from "./data/movies.json";
-import About from "./components/About";
-import MovieDetails from "./components/MovieDetails";
 
 
 function App() {
 
   const [moviesToDisplay, setMoviesToDisplay] = useState(movies);
 
+  const [title, setTitle] = useState("");
+
+
   const deleteMovie = (movieId) => {
     const newList = moviesToDisplay.filter((element) => {
       return movieId !== element.id;
     });
 
-    // moviesToDisplay = newList;  // NEVER, NEVER modify state directly
-
     setMoviesToDisplay(newList);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    const newMovie = {
+      title: title,
+    }
+
+    // moviesToDisplay.push(newMovie); // NEVER, NEVER modify state directly!!
+    const newList = [newMovie, ...moviesToDisplay];
+    setMoviesToDisplay(newList);
+
   }
 
   return (
@@ -33,6 +47,31 @@ function App() {
         <NavLink to="/">Home</NavLink>
         <NavLink to="/about">About</NavLink>
       </nav>
+
+      <section className="box">
+        <h2>Create your own movie:</h2>
+
+        <form onSubmit={handleSubmit}>
+
+          <label>
+            Title: 
+            <input 
+              type="text" 
+              name="title" 
+              placeholder="enter the title" 
+              value={title} 
+              onChange={(e) => { setTitle(e.target.value) }}
+            />
+          </label>
+
+          <p>
+            <button>Create</button>
+          </p>
+
+        </form>
+
+      </section>
+
 
       <Routes>
         <Route path="/" element={<MovieList moviesToDisplay={moviesToDisplay} callbackToDelete={deleteMovie} />} />
