@@ -14,7 +14,12 @@ function AddMovie(props) {
             year: parseInt(year)
         }
 
+        // invoke a function in the parent component to create the new movie
         props.callbackToCreate(movieDetails);
+
+        // clear form
+        setTitle("");
+        setYear("");
 
     }
 
