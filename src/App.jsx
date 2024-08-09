@@ -28,8 +28,15 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // find out id for the movie that we want to add
+    const movieIds = moviesToDisplay.map((movie) => movie.id);
+    const maxId = Math.max(...movieIds);
+    const nextId = maxId + 1;
     
+    // prepare an object with the details of the new movie
     const newMovie = {
+      id: nextId,
       title: title,
       year: parseInt(year)
     }
